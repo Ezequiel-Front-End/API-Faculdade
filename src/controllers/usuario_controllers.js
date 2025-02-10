@@ -2,7 +2,13 @@ let usuarios = []; // Simulação de banco de dados na memória
 
 // Buscar todos os usuários
 exports.getTodosUsuarios = (req, res) => {
-    res.json(usuarios);
+    console.log(usuarios.length);
+
+    if(usuarios.length == 0) {
+        res.send("<p> Nenhuma informação cadastrada no momento! </p> ");
+    }
+
+    return res.json(usuarios);
 };
 
 // Buscar um usuário por ID
@@ -28,13 +34,13 @@ exports.criarUsuario = (req, res) => {
     if (!nome || !email) {
         return res.status(400).json({ mensagem: "Nome e email são obrigatórios" });
     }
-    
+
     const novoUsuario = {
         id: usuarios.length + 1,
         nome,
         email
     };
-    
+
     usuarios.push(novoUsuario);
 
     res.status(201).json(
@@ -43,7 +49,7 @@ exports.criarUsuario = (req, res) => {
             responde: novoUsuario
         }
     );
-    
+
 };
 
 // Atualizar um usuário
@@ -81,11 +87,11 @@ exports.deletarUsuario = (req, res) => {
     }
 
     usuarios.splice(index, 1);
-    
+
     return res.status(200).json(
-        { 
+        {
             message: 'Usuario deletado!',
-            response: `O nome do Usuario é ${usuario.nome}`            
+            response: `O nome do Usuario é ${usuario.nome}`
         }
     );
 
